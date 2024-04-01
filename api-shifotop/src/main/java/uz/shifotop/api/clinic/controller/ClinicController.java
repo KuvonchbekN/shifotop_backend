@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import uz.shifotop.api.clinic.dto.ClinicCountDto;
 import uz.shifotop.api.clinic.dto.ClinicRequestDto;
 import uz.shifotop.api.clinic.dto.ClinicResponseDto;
 import uz.shifotop.api.clinic.dto.MedicalServiceRequestDto;
@@ -172,4 +173,22 @@ public class ClinicController
 		clinicService.removeOrient(clinicId, orientId);
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
+
+	@GetMapping("/speciality-count")
+	public ResponseEntity<List<ClinicCountDto>> getClinicsSpecialitiesWithCount(){
+		return ResponseEntity.ok(clinicService.getClinicsSpecialitiesWithCount());
+	}
+
+	@GetMapping("/clinics-count")
+	public ResponseEntity<Long> getAllClinicsCount(){
+		return ResponseEntity.ok(clinicService.getAllClinicsCount());
+	}
+
+	@GetMapping("/by-services")
+	public ResponseEntity<List<ClinicCountDto>> getClinicsCountByServices(){
+		return ResponseEntity.ok(clinicService.getClinicsByServices());
+	}
+
+
+
 }

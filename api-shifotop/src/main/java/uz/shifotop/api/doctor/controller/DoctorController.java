@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import uz.shifotop.api.doctor.dto.DoctorCreateDto;
 import uz.shifotop.api.doctor.dto.DoctorResponseDto;
+import uz.shifotop.api.doctor.dto.DoctorSpecialityCountDto;
 import uz.shifotop.api.doctor.service.DoctorService;
 
 import java.util.List;
@@ -103,5 +104,18 @@ public class DoctorController
 	{
 		return ResponseEntity.ok(doctorService.createDoctor(dto));
 	}
+
+	//create an endpoint for getting doctor types and the number of doctors in that category
+	//todo later retrieve the data by popularity
+	@GetMapping("/speciality-count") //test this endpoint
+	public ResponseEntity<List<DoctorSpecialityCountDto>> getDoctorsSpecialitiesWithCount(){
+		return ResponseEntity.ok(doctorService.getDoctorsSpecialitiesWithCount());
+	}
+
+	@GetMapping("/doctors-count")
+	public ResponseEntity<Long> getDoctorsCount(){
+		return ResponseEntity.ok(doctorService.getDoctorsCount());
+	}
+
 
 }

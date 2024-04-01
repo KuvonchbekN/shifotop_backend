@@ -29,4 +29,10 @@ public interface ClinicService {
     void removeOrient(Long clinicId, Long orientId);
 
     Long createClinicWithSpecs(ClinicSpecsRequestDto clinicSpecsRequestDto);
+
+    List<ClinicCountDto> getClinicsSpecialitiesWithCount();
+
+    Long getAllClinicsCount();
+
+    List<ClinicCountDto> getClinicsByServices();
 }

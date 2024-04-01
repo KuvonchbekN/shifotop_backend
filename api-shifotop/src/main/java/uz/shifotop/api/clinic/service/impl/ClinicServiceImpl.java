@@ -18,9 +18,11 @@ import uz.shifotop.api.clinic.service.ClinicService;
 import uz.shifotop.api.clinic.service.MedicalServiceService;
 import uz.shifotop.api.clinicSpecs.dto.ClinicSpecsRequestDto;
 import uz.shifotop.api.clinicSpecs.entity.ClinicSpec;
+import uz.shifotop.api.clinicSpecs.repository.ClinicSpecsRepo;
 import uz.shifotop.api.clinicSpecs.service.ClinicSpecsService;
 import uz.shifotop.api.common.exception.NotFoundException;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -35,6 +37,7 @@ public class ClinicServiceImpl implements ClinicService {
     private final AddressService addressService;
     @Lazy
     private final ClinicSpecsService clinicSpecsService;
+    private final ClinicSpecsRepo clinicSpecsRepo;
 
 
     @Override
@@ -68,6 +71,40 @@ public class ClinicServiceImpl implements ClinicService {
         clinic.setClinicSpecs(new HashSet<>(clinicSpecsByIds));
         Clinic savedClinic = clinicRepository.save(clinic);
         return savedClinic.getId();
+    }
+
+    @Override
+    public List<ClinicCountDto> getClinicsSpecialitiesWithCount()
+    {
+        List<ClinicSpec> allClinicSpecs = clinicSpecsRepo.findAll();
+        List<ClinicCountDto> result = new ArrayList<>();
+
+        for(int i=0; i<4; i++){
+            var current = allClinicSpecs.get(i);
+            ClinicCountDto dto = new ClinicCountDto(current.getName(), current.getClinics().size());
+            result.add(dto);
+        }
+        return result;
+    }
+
+    @Override
+    public Long getAllClinicsCount()
+    {
+        return clinicRepository.count();
+    }
+
+    @Override
+    public List<ClinicCountDto> getClinicsByServices()
+    {
+        List<MedicalService> all = medicalServiceService.getAllMedicalServices();
+        var result = new ArrayList<ClinicCountDto>();
+        for(int i=0; i<4; i++){
+            MedicalService curr = all.get(i);
+            ClinicCountDto clinicCountDto = new ClinicCountDto(curr.getName(), 1); //todo research : maybe clinic -> services is not one-to-many, but many-to-many
+            result.add(clinicCountDto);
+        }
+
+        return result;
     }
 
 

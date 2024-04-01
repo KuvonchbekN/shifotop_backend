@@ -46,10 +46,10 @@ public class Doctor {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "doctor_specialities",
-            joinColumns = { @JoinColumn(name = "speciality_id") },
-            inverseJoinColumns = { @JoinColumn(name = "doctor_id") }
+            joinColumns = { @JoinColumn(name = "doctor_id") },
+            inverseJoinColumns = { @JoinColumn(name = "speciality_id") }
     )
-    private List<Specialities> specialities;
+    private Set<Specialities> specialities;
 
     @ManyToMany(mappedBy = "doctors",fetch = FetchType.LAZY)
     private Set<Clinic> clinics;

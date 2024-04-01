@@ -7,6 +7,8 @@ import uz.shifotop.api.clinic.repository.MedicalServiceRepo;
 import uz.shifotop.api.clinic.service.MedicalServiceService;
 import uz.shifotop.api.common.exception.NotFoundException;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class MedicalServiceServiceImpl implements MedicalServiceService {
@@ -21,5 +23,17 @@ public class MedicalServiceServiceImpl implements MedicalServiceService {
     @Override
     public void removeMedicalService(Long serviceId) {
         medicalServiceRepo.deleteById(serviceId);
+    }
+
+    @Override
+    public Long getMedicalServicesCount()
+    {
+        return medicalServiceRepo.count();
+    }
+
+    @Override
+    public List<MedicalService> getAllMedicalServices()
+    {
+        return medicalServiceRepo.findAll();
     }
 }

@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "specialities")
-public class Specialities {
+public class Specialities { //this is actual singular
 
     @Id
     private Long id;
