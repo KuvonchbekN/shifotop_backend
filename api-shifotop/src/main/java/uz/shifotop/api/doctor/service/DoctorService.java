@@ -74,7 +74,7 @@ public class DoctorService {
         doctorResponseDto.setClinics(clinicResponseDtos);
     }
 
-    private double calculateRatingFromReviews(List<Review> reviews) {
+    public static double calculateRatingFromReviews(List<Review> reviews) {
         int cnt = 0;
         int sum = 0;
         for (Review review : reviews) {

@@ -12,11 +12,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewResponseDto {
-    private long id;
-    private long patientId;
-    private long doctorId;
-    private long clinicId;
-    private int rating;
+    private Long id;
+    private Long patientId;
+    private Long doctorId;
+    private Long clinicId;
+    private Integer rating;
     private String content;
     private LocalDateTime reviewTime; //todo might be problem, coz it was string before, when I inserted the data
 }

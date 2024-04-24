@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import uz.shifotop.api.address.dto.AddressResponseDto;
 import uz.shifotop.api.address.entity.Address;
 import uz.shifotop.api.address.service.AddressService;
 import uz.shifotop.api.clinic.dto.*;
@@ -17,15 +18,25 @@ import uz.shifotop.api.clinic.repository.ClinicRepo;
 import uz.shifotop.api.clinic.service.ClinicService;
 import uz.shifotop.api.clinic.service.MedicalServiceService;
 import uz.shifotop.api.clinicSpecs.dto.ClinicSpecsRequestDto;
+import uz.shifotop.api.clinicSpecs.dto.ClinicSpecsResponseDto;
 import uz.shifotop.api.clinicSpecs.entity.ClinicSpec;
 import uz.shifotop.api.clinicSpecs.repository.ClinicSpecsRepo;
 import uz.shifotop.api.clinicSpecs.service.ClinicSpecsService;
 import uz.shifotop.api.common.exception.NotFoundException;
+import uz.shifotop.api.doctor.dto.DoctorResponseDto;
+import uz.shifotop.api.doctor.entity.Doctor;
+import uz.shifotop.api.doctor.mapper.DoctorMapper;
+import uz.shifotop.api.doctor.service.DoctorService;
+import uz.shifotop.api.review.dto.ReviewResponseDto;
+import uz.shifotop.api.review.entity.Review;
+import uz.shifotop.api.review.repository.ReviewRepository;
 
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +49,8 @@ public class ClinicServiceImpl implements ClinicService {
     @Lazy
     private final ClinicSpecsService clinicSpecsService;
     private final ClinicSpecsRepo clinicSpecsRepo;
+    private final DoctorMapper doctorMapper;
+    private final ReviewRepository reviewRepository;
 
 
     @Override
@@ -53,8 +66,99 @@ public class ClinicServiceImpl implements ClinicService {
         return clinicMapper.clinicListToClinicResponseDtoList(content);
     }
 
-    public Clinic getClinicById(Long id) {
-        return clinicRepository.findById(id).orElseThrow(() -> new NotFoundException("Could not find the clinic with this id!"));
+    private void convertFromClinicToResponseDto(Clinic clinic, ClinicResponseDto clinicResponseDto) {
+        Set<Doctor> doctors = clinic.getDoctors();
+        var doctorsResponseDto = doctorsToDoctorsDtosResponse(doctors);
+
+        List<MedicalService> medicalServices = clinic.getMedicalServices();
+        var medicalServicesDto = medicalServicesToMedicalServicesDto(medicalServices);
+        
+        Address address = clinic.getAddress();
+        var addressDto = addressToAddressDto(address);
+        
+        List<Address> orientalPlaces = clinic.getOrientalPlaces();
+        var orientalPlacesDto = orientalPlacesToOrientalPlacesDto(orientalPlaces);
+        
+        Set<ClinicSpec> clinicSpecs = clinic.getClinicSpecs();
+        var clinicSpecsToClinicSpecsDto = clinicSpecsToClinicSpecsDto(clinicSpecs);
+
+        List<Review> reviews = reviewRepository.findByClinic_Id(clinic.getId());
+        var reviewsDto = reviewsToReviewsDto(reviews);
+
+        //attach the rating calculation to the doctorResponseDto
+        double rating = DoctorService.calculateRatingFromReviews(reviews);
+
+        clinicResponseDto.setDoctors(doctorsResponseDto);
+        clinicResponseDto.setMedicalServices(medicalServicesDto);
+        clinicResponseDto.setAddress(addressDto);
+        clinicResponseDto.setOrientalPlaces(orientalPlacesDto);
+        clinicResponseDto.setClinicSpecs(clinicSpecsToClinicSpecsDto);
+        clinicResponseDto.setReviews(reviewsDto);
+        clinicResponseDto.setRating(rating);
+
+    }
+
+    private List<ReviewResponseDto> reviewsToReviewsDto(List<Review> reviews) {
+        if (reviews == null) {
+            return new ArrayList<>();
+        }
+
+        return reviews.stream().map(review ->
+                new ReviewResponseDto(review.getId(), review.getPatient().getId(), null, review.getClinic().getId(), review.getRating(), review.getContent(), review.getReviewDate()))
+                .collect(Collectors.toList());
+    }
+
+    private List<ClinicSpecsResponseDto> clinicSpecsToClinicSpecsDto(Set<ClinicSpec> clinicSpecs) {
+        if (clinicSpecs == null) {
+            return new ArrayList<>();
+        }
+
+        return clinicSpecs.stream()
+                .map(spec -> new ClinicSpecsResponseDto(spec.getId(), spec.getName()))
+                .collect(Collectors.toList());
+    }
+
+
+    private List<AddressResponseDto> orientalPlacesToOrientalPlacesDto(List<Address> orientalPlaces) {
+        var orientalPlacesDto = new ArrayList<AddressResponseDto>();
+        for (Address orientalPlace : orientalPlaces) {
+            var addressDto = addressToAddressDto(orientalPlace);
+            orientalPlacesDto.add(addressDto);
+        }
+        return orientalPlacesDto;
+    }
+
+    private AddressResponseDto addressToAddressDto(Address address) {
+        return new AddressResponseDto(address.getRegionName(), address.getCityName(), address.getAddressName());
+    }
+
+    private List<MedicalServiceResponseDto> medicalServicesToMedicalServicesDto(List<MedicalService> medicalServices) {
+        var mssDto = new ArrayList<MedicalServiceResponseDto>();
+        for (MedicalService ms : medicalServices) {
+            var msDto = new MedicalServiceResponseDto(ms.getId(), ms.getName(), ms.getCost());
+            mssDto.add(msDto);
+        }
+        return mssDto;
+    }
+
+    private List<DoctorResponseDto> doctorsToDoctorsDtosResponse(Set<Doctor> doctors) {
+        List<DoctorResponseDto> doctorResponseDtos = new ArrayList<>();
+        for (var doctor: doctors){
+            DoctorResponseDto drDto = new DoctorResponseDto(doctor.getId(), doctor.getFirstname(), doctor.getLastname(), doctor.getPhoneNumber(), doctor.getBio(), Year.now().getValue()-doctor.getCareerStartYear(), doctor.getPrice(), null, null, null,0);
+            doctorResponseDtos.add(drDto);
+        }
+        return doctorResponseDtos;
+    }
+    
+    
+
+    public ClinicResponseDto getClinicById(Long id) {
+        Clinic clinic = clinicRepository.findById(id).orElseThrow(() -> new NotFoundException("Could not find the clinic with this id!"));
+        ClinicResponseDto clinicResponseDto = new ClinicResponseDto();
+        clinicResponseDto = clinicMapper.clinicToClinicResponseDto(clinic, clinicResponseDto);
+
+        convertFromClinicToResponseDto(clinic, clinicResponseDto);
+        return clinicResponseDto;
     }
 
     public Long createClinic(ClinicRequestDto clinicDto) {
@@ -107,6 +211,7 @@ public class ClinicServiceImpl implements ClinicService {
         return result;
     }
 
+/*
 
     public Long updateClinic(Long clinicId, ClinicRequestDto clinicUpdateRequestDto) {
         Clinic clinicTobeUpdated = getClinicById(clinicId);
@@ -145,6 +250,7 @@ public class ClinicServiceImpl implements ClinicService {
         clinicById.removeOrientalPlace(addressById);
         addressService.removeOrientalPlaceById(orientId);
     }
+*/
 
     @Override
     public Set<Clinic> findAllClinicsByClinicIds(List<Long> clinicIds) {

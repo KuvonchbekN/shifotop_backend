@@ -1,10 +1,34 @@
 package uz.shifotop.api.clinic.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import uz.shifotop.api.address.dto.AddressResponseDto;
+import uz.shifotop.api.address.entity.Address;
+import uz.shifotop.api.clinicSpecs.dto.ClinicSpecsResponseDto;
+import uz.shifotop.api.doctor.dto.DoctorResponseDto;
+import uz.shifotop.api.review.dto.ReviewResponseDto;
+import uz.shifotop.api.specialization.entity.Specialities;
 
-public record ClinicResponseDto(@Schema(defaultValue = "1") Long id,
-                                @Schema(defaultValue = "ShoxMedCenter") String name,
-                                @Schema(defaultValue = "ShoxMedCenter") String officialName,
-                                @Schema(defaultValue = "11111") String phoneNumber,
-                                @Schema(defaultValue = "aaaaa") String supervisorName) {
+import java.util.List;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class ClinicResponseDto {
+    private Long id;
+    private String name;
+    private String officialName;
+    private String phoneNumber;
+    private String supervisorName;
+    private List<DoctorResponseDto> doctors;
+    private List<MedicalServiceResponseDto>medicalServices;
+    private AddressResponseDto address;
+    private List<AddressResponseDto>orientalPlaces;
+    private List<ClinicSpecsResponseDto> clinicSpecs;
+    private List<ReviewResponseDto> reviews;
+    private double rating;
 }

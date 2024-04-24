@@ -67,13 +67,12 @@ public class ClinicController
 			}
 	)
 	@GetMapping("/{id}")
-	public ResponseEntity<Clinic> getClinicById(
+	public ResponseEntity<ClinicResponseDto> getClinicById(
 			@Parameter(description = "ID of the clinic to be retrieved", required = true, example = "1")
 			@PathVariable("id") Long id)
 	{
 		log.info("Get clinic by ID");
-		Clinic clinic = clinicService.getClinicById(id);
-		return ResponseEntity.ok(clinic);
+		return ResponseEntity.ok(clinicService.getClinicById(id));
 	}
 
 	// ...
@@ -126,7 +125,7 @@ public class ClinicController
 	public ResponseEntity<Void> assignMedicalService(@RequestBody MedicalServiceRequestDto medicalService)
 	{
 		log.info("Assign medical service to clinic");
-		clinicService.assignMedicalService(medicalService);
+//		clinicService.assignMedicalService(medicalService);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 
@@ -144,7 +143,7 @@ public class ClinicController
 			@Parameter(description = "ID of the medical service", required = true, example = "1") @PathVariable Long serviceId)
 	{
 		log.info("Remove medical service from clinic");
-		clinicService.removeMedicalService(clinicId, serviceId);
+//		clinicService.removeMedicalService(clinicId, serviceId);
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 
@@ -160,7 +159,7 @@ public class ClinicController
 	public ResponseEntity<Void> assignOrientalPlace(@RequestBody OrientalPlaceDto orientalPlaceDto)
 	{
 		log.info("assign orient endpoint!");
-		clinicService.assignOrient(orientalPlaceDto);
+//		clinicService.assignOrient(orientalPlaceDto);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 
@@ -178,7 +177,7 @@ public class ClinicController
 			@Parameter(description = "Oriental place ID", required = true, example = "1") @PathVariable Long orientId)
 	{
 		log.info("remove oriental place from clinic");
-		clinicService.removeOrient(clinicId, orientId);
+//		clinicService.removeOrient(clinicId, orientId);
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 

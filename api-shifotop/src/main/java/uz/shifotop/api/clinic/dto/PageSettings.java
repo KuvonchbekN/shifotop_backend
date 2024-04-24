@@ -10,7 +10,7 @@ public class PageSettings {
 
     private int page = 0;
 
-    private int pageSize = 2;
+    private int pageSize = 10;
 
     private String direction = "asc";
 

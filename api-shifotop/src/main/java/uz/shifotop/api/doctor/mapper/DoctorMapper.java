@@ -17,6 +17,8 @@ public interface DoctorMapper {
     Doctor doctorCreateDtoToDoctor(DoctorCreateDto doctorDto);
 
     DoctorResponseDto doctorToDoctorResponseDto(Doctor doctor);
+
+
 }
 
 
