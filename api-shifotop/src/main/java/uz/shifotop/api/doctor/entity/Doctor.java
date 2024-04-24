@@ -31,6 +31,12 @@ public class Doctor {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @Column(name = "bio")
+    private String bio;
+
+    @Column(name = "careerStartYear")
+    private Integer careerStartYear;
+
     @Column(name = "email", unique = true)
     private String email;
 
@@ -40,8 +46,15 @@ public class Doctor {
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
+    @Column(name = "price")
+    private Double price;
+
+    /*@Lob
+    @Column(name = "image_data", columnDefinition = "BLOB")
+    private byte[] imageData;*/
+/*
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "doctor")
-    private List<DoctorCareer> careerList;
+    private List<DoctorCareer> careerList;*/
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

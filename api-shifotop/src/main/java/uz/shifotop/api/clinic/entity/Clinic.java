@@ -50,7 +50,7 @@ public class Clinic {
     private String supervisorName;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "address_id")
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
@@ -66,7 +66,7 @@ public class Clinic {
     @OneToMany(mappedBy = "clinic", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<MedicalService> medicalServices = new ArrayList<>();
 
-    @OneToMany(mappedBy = "clinic", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "clinicIdForOrientalPlace", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     //all orientalPlaces should be removed, when clinic is deleted
     private List<Address> orientalPlaces = new ArrayList<>();
 
@@ -89,11 +89,11 @@ public class Clinic {
 
     public void addOrientalPlace(Address orientalPlace) {
         orientalPlaces.add(orientalPlace);
-        orientalPlace.setClinic(this);
+        orientalPlace.setClinicIdForOrientalPlace(this);
     }
 
     public void removeOrientalPlace(Address orientalPlace) {
         orientalPlaces.remove(orientalPlace);
-        orientalPlace.setClinic(null);
+        orientalPlace.setClinicIdForOrientalPlace(null);
     }
 }

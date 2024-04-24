@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,11 +21,13 @@ import uz.shifotop.api.doctor.dto.DoctorResponseDto;
 import uz.shifotop.api.doctor.dto.DoctorSpecialityCountDto;
 import uz.shifotop.api.doctor.service.DoctorService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/doctors")
+@Slf4j
 public class DoctorController
 {
 
@@ -43,6 +46,7 @@ public class DoctorController
 	@GetMapping
 	public ResponseEntity<List<DoctorResponseDto>> getAllDoctors()
 	{
+		log.info("Get all doctors");
 		return ResponseEntity.ok(doctorService.getAllDoctors());
 	}
 
@@ -61,6 +65,7 @@ public class DoctorController
 			@Parameter(description = "ID of the doctor to be retrieved", required = true, example = "1")
 			@PathVariable(value = "id") Long doctorId)
 	{
+		log.info("Get doctor by ID: {}", doctorId);
 		return ResponseEntity.ok(doctorService.getDoctor(doctorId));
 	}
 
@@ -84,6 +89,7 @@ public class DoctorController
 			@Parameter(description = "Page number", example = "1")
 			@RequestParam(value = "page", required = false) Integer page)
 	{
+		log.info("Get doctors by speciality: {}", specId);
 		return ResponseEntity.ok(doctorService.getDoctorsBySpeciality(specId, page, size));
 	}
 
@@ -102,6 +108,7 @@ public class DoctorController
 			@Parameter(description = "Doctor details to be added", required = true)
 			@Valid @RequestBody DoctorCreateDto dto)
 	{
+		log.info("Create doctor: {}", dto);
 		return ResponseEntity.ok(doctorService.createDoctor(dto));
 	}
 
@@ -109,11 +116,14 @@ public class DoctorController
 	//todo later retrieve the data by popularity
 	@GetMapping("/speciality-count") //test this endpoint
 	public ResponseEntity<List<DoctorSpecialityCountDto>> getDoctorsSpecialitiesWithCount(){
-		return ResponseEntity.ok(doctorService.getDoctorsSpecialitiesWithCount());
+		log.info("Get doctors by speciality count");
+		var response = doctorService.getDoctorsSpecialitiesWithCount();
+		return ResponseEntity.ok(!response.isEmpty() ? response: new ArrayList<>() );
 	}
 
 	@GetMapping("/doctors-count")
 	public ResponseEntity<Long> getDoctorsCount(){
+		log.info("Get doctors count");
 		return ResponseEntity.ok(doctorService.getDoctorsCount());
 	}
 

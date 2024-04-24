@@ -30,5 +30,8 @@ public class Address {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
+    private Clinic clinicIdForOrientalPlace;
+
+    @OneToOne(mappedBy = "address")
     private Clinic clinic;
 }

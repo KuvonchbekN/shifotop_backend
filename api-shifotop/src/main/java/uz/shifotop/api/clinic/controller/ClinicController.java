@@ -51,6 +51,7 @@ public class ClinicController
 	@GetMapping
 	public ResponseEntity<List<ClinicResponseDto>> getAllClinics(@Valid @ParameterObject PageSettings pageSettings)
 	{
+		log.info("Get all clinics");
 		return ResponseEntity.ok(clinicService.getAllClinics(pageSettings));
 	}
 
@@ -70,6 +71,7 @@ public class ClinicController
 			@Parameter(description = "ID of the clinic to be retrieved", required = true, example = "1")
 			@PathVariable("id") Long id)
 	{
+		log.info("Get clinic by ID");
 		Clinic clinic = clinicService.getClinicById(id);
 		return ResponseEntity.ok(clinic);
 	}
@@ -89,6 +91,7 @@ public class ClinicController
 	@PostMapping
 	public ResponseEntity<Long> createClinic(@RequestBody ClinicRequestDto clinicRequestDto)
 	{
+		log.info("Create new clinic");
 		Long createdClinicId = clinicService.createClinic(clinicRequestDto);
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdClinicId);
 	}
@@ -106,6 +109,7 @@ public class ClinicController
 	@PostMapping("/specs")
 	public ResponseEntity<Long> createClinicWithSpecs(@RequestBody ClinicSpecsRequestDto clinicSpecsRequestDto)
 	{
+		log.info("Create new clinic");
 		Long createdClinicId = clinicService.createClinicWithSpecs(clinicSpecsRequestDto);
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdClinicId);
 	}
@@ -121,6 +125,7 @@ public class ClinicController
 	@PostMapping("/assign-service")
 	public ResponseEntity<Void> assignMedicalService(@RequestBody MedicalServiceRequestDto medicalService)
 	{
+		log.info("Assign medical service to clinic");
 		clinicService.assignMedicalService(medicalService);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
@@ -138,6 +143,7 @@ public class ClinicController
 			@Parameter(description = "ID of the clinic", required = true, example = "1") @PathVariable Long clinicId,
 			@Parameter(description = "ID of the medical service", required = true, example = "1") @PathVariable Long serviceId)
 	{
+		log.info("Remove medical service from clinic");
 		clinicService.removeMedicalService(clinicId, serviceId);
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
@@ -153,6 +159,7 @@ public class ClinicController
 	@PostMapping("/assign-orient")
 	public ResponseEntity<Void> assignOrientalPlace(@RequestBody OrientalPlaceDto orientalPlaceDto)
 	{
+		log.info("assign orient endpoint!");
 		clinicService.assignOrient(orientalPlaceDto);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
@@ -170,6 +177,7 @@ public class ClinicController
 			@Parameter(description = "Clinic ID", required = true, example = "1") @PathVariable Long clinicId,
 			@Parameter(description = "Oriental place ID", required = true, example = "1") @PathVariable Long orientId)
 	{
+		log.info("remove oriental place from clinic");
 		clinicService.removeOrient(clinicId, orientId);
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
@@ -181,11 +189,13 @@ public class ClinicController
 
 	@GetMapping("/clinics-count")
 	public ResponseEntity<Long> getAllClinicsCount(){
+		log.info("getAllClinicsCount");
 		return ResponseEntity.ok(clinicService.getAllClinicsCount());
 	}
 
 	@GetMapping("/by-services")
 	public ResponseEntity<List<ClinicCountDto>> getClinicsCountByServices(){
+		log.info("getClinicsCountByServices");
 		return ResponseEntity.ok(clinicService.getClinicsByServices());
 	}
 

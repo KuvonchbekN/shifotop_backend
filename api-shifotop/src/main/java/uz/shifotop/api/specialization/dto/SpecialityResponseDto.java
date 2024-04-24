@@ -10,7 +10,5 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SpecialityResponseDto {
-
     private String name;
-
 }

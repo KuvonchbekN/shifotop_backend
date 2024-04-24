@@ -23,5 +23,4 @@ public class Specialities { //this is actual singular
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "specialities")
     private List<Doctor> doctors;
-
 }

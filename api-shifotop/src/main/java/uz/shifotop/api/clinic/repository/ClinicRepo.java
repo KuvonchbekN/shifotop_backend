@@ -8,4 +8,6 @@ import java.util.Set;
 
 public interface ClinicRepo extends JpaRepository<Clinic, Long> {
     Set<Clinic> findAllByIdIn(List<Long> id);
+
+    Set<Clinic> findByDoctors_Id(Long doctorId);
 }

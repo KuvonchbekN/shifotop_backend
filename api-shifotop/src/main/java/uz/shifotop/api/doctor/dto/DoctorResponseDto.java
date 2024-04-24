@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.shifotop.api.address.dto.AddressResponseDto;
+import uz.shifotop.api.clinic.dto.ClinicResponseDto;
+import uz.shifotop.api.review.dto.ReviewResponseDto;
+import uz.shifotop.api.review.entity.Review;
 import uz.shifotop.api.specialization.dto.SpecialityResponseDto;
 
 import java.util.List;
@@ -18,11 +21,12 @@ public class DoctorResponseDto {
     private String firstname;
     private String lastname;
     private String phoneNumber;
-    private String workCategory;
-    private int price;
-    private AddressResponseDto address;
+//    private String workCategory;
+    private String bio;
+    private int experience; //now-careerStartYear
+    private double price;
     private List<SpecialityResponseDto> specialities;
-    private int yearOfExperience;
-    private int reviews;
-    private float rating;
+    private List<ReviewResponseDto> reviews;
+    private List<ClinicResponseDto> clinics;
+    private double rating;
 }
