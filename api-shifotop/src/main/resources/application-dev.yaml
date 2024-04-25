@@ -2,7 +2,7 @@ server:
   port: 8081
 spring:
   datasource:
-    url: ${DATABASE_URL}
+G    url: ${DATABASE_URL}
     username: ${DATABASE_USERNAME}
     password: ${DATABASE_PASSWORD}
   jpa:

@@ -10,4 +10,8 @@ import java.util.List;
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 	@Override
 	List<Doctor> findAll();
+
+	List<Doctor> findByFirstnameContainingIgnoreCase(String firstName);
+	List<Doctor> findByLastnameContainingIgnoreCase(String lastName);
+
 }

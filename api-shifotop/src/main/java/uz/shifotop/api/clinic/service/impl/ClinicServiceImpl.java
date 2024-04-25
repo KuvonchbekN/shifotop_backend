@@ -66,6 +66,22 @@ public class ClinicServiceImpl implements ClinicService {
         return clinicMapper.clinicListToClinicResponseDtoList(content);
     }
 
+    public List<ClinicResponseDto> getClinicResponseDtoListFromClinicList(List<Clinic> clinics){
+        var clinicResponseDtoList = new ArrayList<ClinicResponseDto>();
+        for (Clinic clinic: clinics) {
+            var clinicResponseDto = new ClinicResponseDto();
+            clinicResponseDto.setId(clinic.getId());
+            clinicResponseDto.setName(clinic.getName());
+            clinicResponseDto.setOfficialName(clinic.getOfficialName());
+            clinicResponseDto.setPhoneNumber(clinic.getPhoneNumber());
+            clinicResponseDto.setSupervisorName(clinic.getSupervisorName());
+
+            convertFromClinicToResponseDto(clinic, clinicResponseDto);
+            clinicResponseDtoList.add(clinicResponseDto);
+        }
+        return clinicResponseDtoList;
+    }
+
     private void convertFromClinicToResponseDto(Clinic clinic, ClinicResponseDto clinicResponseDto) {
         Set<Doctor> doctors = clinic.getDoctors();
         var doctorsResponseDto = doctorsToDoctorsDtosResponse(doctors);
@@ -149,8 +165,6 @@ public class ClinicServiceImpl implements ClinicService {
         }
         return doctorResponseDtos;
     }
-    
-    
 
     public ClinicResponseDto getClinicById(Long id) {
         Clinic clinic = clinicRepository.findById(id).orElseThrow(() -> new NotFoundException("Could not find the clinic with this id!"));

@@ -1,5 +1,6 @@
 package uz.shifotop.api.clinic.mapper;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import uz.shifotop.api.address.dto.AddressResponseDto;
 import uz.shifotop.api.address.entity.Address;
@@ -8,11 +9,14 @@ import uz.shifotop.api.clinic.dto.ClinicResponseDto;
 import uz.shifotop.api.clinic.dto.MedicalServiceResponseDto;
 import uz.shifotop.api.clinic.entity.Clinic;
 import uz.shifotop.api.clinic.entity.MedicalService;
+import uz.shifotop.api.clinic.repository.ClinicRepo;
 import uz.shifotop.api.clinicSpecs.dto.ClinicSpecsRequestDto;
 import uz.shifotop.api.clinicSpecs.dto.ClinicSpecsResponseDto;
 import uz.shifotop.api.clinicSpecs.entity.ClinicSpec;
 import uz.shifotop.api.doctor.dto.DoctorResponseDto;
 import uz.shifotop.api.doctor.entity.Doctor;
+import uz.shifotop.api.doctor.service.DoctorService;
+import uz.shifotop.api.review.repository.ReviewRepository;
 
 import java.time.Year;
 import java.util.ArrayList;
@@ -21,7 +25,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class ClinicMapperImpl implements ClinicMapper {
+    private final ReviewRepository reviewRepository;
+
     @Override
     public Clinic clinicDtoToClinic(ClinicRequestDto clinicRequestDto, Clinic clinicToBeUpdated) {
         if (clinicRequestDto != null && clinicToBeUpdated != null) {
@@ -50,6 +57,8 @@ public class ClinicMapperImpl implements ClinicMapper {
 
         return clinics.stream().map(clinic -> {
             ClinicResponseDto dto = new ClinicResponseDto();
+            double rating = DoctorService.calculateRatingFromReviews(reviewRepository.findByClinic_Id(clinic.getId()));
+            dto.setRating(rating);
             dto.setId(clinic.getId());
             dto.setName(clinic.getName());
             dto.setOfficialName(clinic.getOfficialName());

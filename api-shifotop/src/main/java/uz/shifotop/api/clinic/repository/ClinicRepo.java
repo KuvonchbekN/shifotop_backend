@@ -10,4 +10,7 @@ public interface ClinicRepo extends JpaRepository<Clinic, Long> {
     Set<Clinic> findAllByIdIn(List<Long> id);
 
     Set<Clinic> findByDoctors_Id(Long doctorId);
+
+    List<Clinic> findByNameContainingIgnoreCase(String name);
+
 }

@@ -13,6 +13,8 @@ import java.util.Set;
 public interface ClinicService {
     List<ClinicResponseDto> getAllClinics(PageSettings pageSettings);
 
+    List<ClinicResponseDto> getClinicResponseDtoListFromClinicList(List<Clinic> clinics);
+
     Set<Clinic> findAllClinicsByClinicIds(List<Long> clinicIds);
 
     ClinicResponseDto getClinicById(Long id);

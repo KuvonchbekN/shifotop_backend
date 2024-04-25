@@ -40,23 +40,30 @@ public class DoctorService {
 
     public List<DoctorResponseDto> getAllDoctors() {
         List<Doctor> doctorList = doctorRepository.findAll();
+        return getDoctorResponseDtoListFromDoctorsList(doctorList);
+    }
+
+    //from doctors list to doctorsResponseDtoList
+    public List<DoctorResponseDto> getDoctorResponseDtoListFromDoctorsList(List<Doctor> doctorList) {
         List<DoctorResponseDto> doctorResponseDtoList = new ArrayList<>();
         for (var doctor : doctorList) {
-            DoctorResponseDto doctorResponseDto = doctorMapper.doctorToDoctorResponseDto(doctor);
-            convertFromDoctorToResponseDto(doctor, doctorResponseDto);
+//            DoctorResponseDto doctorResponseDto = doctorMapper.doctorToDoctorResponseDto(doctor);
+            DoctorResponseDto doctorResponseDto = convertFromDoctorToResponseDto(doctor);
             doctorResponseDtoList.add(doctorResponseDto);
         }
         return doctorResponseDtoList;
     }
 
+
     public DoctorResponseDto getDoctor(long id) {
         Doctor doctor = doctorRepository.findById(id).orElseThrow();
-        DoctorResponseDto doctorResponseDto = doctorMapper.doctorToDoctorResponseDto(doctor);
-        convertFromDoctorToResponseDto(doctor, doctorResponseDto);
-        return doctorResponseDto;
+//        DoctorResponseDto doctorResponseDto = doctorMapper.doctorToDoctorResponseDto(doctor);
+        return convertFromDoctorToResponseDto(doctor);
     }
 
-    private void convertFromDoctorToResponseDto(Doctor doctor, DoctorResponseDto doctorResponseDto) {
+    public DoctorResponseDto convertFromDoctorToResponseDto(Doctor doctor) {
+        DoctorResponseDto doctorResponseDto = doctorMapper.doctorToDoctorResponseDto(doctor);
+
         //attach the specialities to the doctorResponseDto
         List<Specialities> specialities = specialitiesRepository.findByDoctors_Id(doctor.getId());
         attachSpecialitiesToDoctorResponseDto(specialities, doctorResponseDto);
@@ -72,6 +79,7 @@ public class DoctorService {
         Set<Clinic> clinics = clinicRepo.findByDoctors_Id(doctor.getId());
         List<ClinicResponseDto> clinicResponseDtos = clinicMapper.clinicListToClinicResponseDtoList(new ArrayList<>(clinics));
         doctorResponseDto.setClinics(clinicResponseDtos);
+        return doctorResponseDto;
     }
 
     public static double calculateRatingFromReviews(List<Review> reviews) {
