@@ -160,7 +160,9 @@ public class ClinicServiceImpl implements ClinicService {
     private List<DoctorResponseDto> doctorsToDoctorsDtosResponse(Set<Doctor> doctors) {
         List<DoctorResponseDto> doctorResponseDtos = new ArrayList<>();
         for (var doctor: doctors){
-            DoctorResponseDto drDto = new DoctorResponseDto(doctor.getId(), doctor.getFirstname(), doctor.getLastname(), doctor.getPhoneNumber(), doctor.getBio(), Year.now().getValue()-doctor.getCareerStartYear(), doctor.getPrice(), null, null, null,0);
+            List<Review> doctorReviews = reviewRepository.findByDoctor_Id(doctor.getId());
+            double ratingCalculated = DoctorService.calculateRatingFromReviews(doctorReviews);
+            DoctorResponseDto drDto = new DoctorResponseDto(doctor.getId(), doctor.getFirstname(), doctor.getLastname(), doctor.getPhoneNumber(), doctor.getBio(), Year.now().getValue()-doctor.getCareerStartYear(), doctor.getPrice(), null, null, null,ratingCalculated);
             doctorResponseDtos.add(drDto);
         }
         return doctorResponseDtos;
@@ -226,7 +228,6 @@ public class ClinicServiceImpl implements ClinicService {
     }
 
 /*
-
     public Long updateClinic(Long clinicId, ClinicRequestDto clinicUpdateRequestDto) {
         Clinic clinicTobeUpdated = getClinicById(clinicId);
         Clinic updatedClinic = clinicMapper.clinicDtoToClinic(clinicUpdateRequestDto, clinicTobeUpdated);

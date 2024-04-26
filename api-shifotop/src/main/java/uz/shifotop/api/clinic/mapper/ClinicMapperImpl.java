@@ -9,7 +9,6 @@ import uz.shifotop.api.clinic.dto.ClinicResponseDto;
 import uz.shifotop.api.clinic.dto.MedicalServiceResponseDto;
 import uz.shifotop.api.clinic.entity.Clinic;
 import uz.shifotop.api.clinic.entity.MedicalService;
-import uz.shifotop.api.clinic.repository.ClinicRepo;
 import uz.shifotop.api.clinicSpecs.dto.ClinicSpecsRequestDto;
 import uz.shifotop.api.clinicSpecs.dto.ClinicSpecsResponseDto;
 import uz.shifotop.api.clinicSpecs.entity.ClinicSpec;
