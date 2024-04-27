@@ -77,7 +77,7 @@ public class Clinic {
 
 
     //these methods are needed for correct synchronization
-    public void addMedicalService(MedicalService medicalService) {
+    /*public void addMedicalService(MedicalService medicalService) {
         medicalServices.add(medicalService);
         medicalService.setClinic(this);
     }
@@ -95,5 +95,5 @@ public class Clinic {
     public void removeOrientalPlace(Address orientalPlace) {
         orientalPlaces.remove(orientalPlace);
         orientalPlace.setClinicIdForOrientalPlace(null);
-    }
+    }*/
 }

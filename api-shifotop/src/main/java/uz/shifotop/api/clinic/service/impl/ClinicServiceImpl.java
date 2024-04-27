@@ -45,11 +45,9 @@ public class ClinicServiceImpl implements ClinicService {
     private final ClinicRepo clinicRepository;
     private final ClinicMapper clinicMapper;
     private final MedicalServiceService medicalServiceService;
-    private final AddressService addressService;
     @Lazy
     private final ClinicSpecsService clinicSpecsService;
     private final ClinicSpecsRepo clinicSpecsRepo;
-    private final DoctorMapper doctorMapper;
     private final ReviewRepository reviewRepository;
 
 
