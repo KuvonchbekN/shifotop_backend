@@ -9,14 +9,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import uz.shifotop.api.address.dto.AddressResponseDto;
 import uz.shifotop.api.address.entity.Address;
-import uz.shifotop.api.address.service.AddressService;
 import uz.shifotop.api.clinic.dto.*;
 import uz.shifotop.api.clinic.entity.Clinic;
-import uz.shifotop.api.clinic.entity.MedicalService;
+import uz.shifotop.api.service.entity.MedicalService;
 import uz.shifotop.api.clinic.mapper.ClinicMapper;
 import uz.shifotop.api.clinic.repository.ClinicRepo;
 import uz.shifotop.api.clinic.service.ClinicService;
-import uz.shifotop.api.clinic.service.MedicalServiceService;
+import uz.shifotop.api.service.service.MedicalServiceService;
 import uz.shifotop.api.clinicSpecs.dto.ClinicSpecsRequestDto;
 import uz.shifotop.api.clinicSpecs.dto.ClinicSpecsResponseDto;
 import uz.shifotop.api.clinicSpecs.entity.ClinicSpec;
@@ -25,11 +24,11 @@ import uz.shifotop.api.clinicSpecs.service.ClinicSpecsService;
 import uz.shifotop.api.common.exception.NotFoundException;
 import uz.shifotop.api.doctor.dto.DoctorResponseDto;
 import uz.shifotop.api.doctor.entity.Doctor;
-import uz.shifotop.api.doctor.mapper.DoctorMapper;
 import uz.shifotop.api.doctor.service.DoctorService;
 import uz.shifotop.api.review.dto.ReviewResponseDto;
 import uz.shifotop.api.review.entity.Review;
 import uz.shifotop.api.review.repository.ReviewRepository;
+import uz.shifotop.api.service.dto.MedicalServiceResponseDto;
 
 import java.time.Year;
 import java.util.ArrayList;
@@ -39,20 +38,28 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class ClinicServiceImpl implements ClinicService {
 
     private final ClinicRepo clinicRepository;
     private final ClinicMapper clinicMapper;
     private final MedicalServiceService medicalServiceService;
-    @Lazy
     private final ClinicSpecsService clinicSpecsService;
     private final ClinicSpecsRepo clinicSpecsRepo;
     private final ReviewRepository reviewRepository;
 
+    public ClinicServiceImpl(ClinicRepo clinicRepository, ClinicMapper clinicMapper, @Lazy MedicalServiceService medicalServiceService, ClinicSpecsService clinicSpecsService, ClinicSpecsRepo clinicSpecsRepo, ReviewRepository reviewRepository) {
+        this.clinicRepository = clinicRepository;
+        this.clinicMapper = clinicMapper;
+        this.medicalServiceService = medicalServiceService;
+        this.clinicSpecsService = clinicSpecsService;
+        this.clinicSpecsRepo = clinicSpecsRepo;
+        this.reviewRepository = reviewRepository;
+    }
+
 
     @Override
     public List<ClinicResponseDto> getAllClinics(PageSettings pageSetting) {
+        //todo maybe we could turn off paging, sorting for MVP since we won't have too much data
         if (pageSetting.getKey() == null) {
             pageSetting.setKey("name");
         }
@@ -62,6 +69,12 @@ public class ClinicServiceImpl implements ClinicService {
         Page<Clinic> all = clinicRepository.findAll(clinicPage);
         List<Clinic> content = all.getContent();
         return clinicMapper.clinicListToClinicResponseDtoList(content);
+    }
+
+    @Override
+    public List<ClinicResponseDto> getAllClinicsBySpec(String spec) {
+        List<Clinic> all = clinicRepository.findByClinicSpecsName(spec);
+        return clinicMapper.clinicListToClinicResponseDtoList(all);
     }
 
     public List<ClinicResponseDto> getClinicResponseDtoListFromClinicList(List<Clinic> clinics){
@@ -84,7 +97,7 @@ public class ClinicServiceImpl implements ClinicService {
         Set<Doctor> doctors = clinic.getDoctors();
         var doctorsResponseDto = doctorsToDoctorsDtosResponse(doctors);
 
-        List<MedicalService> medicalServices = clinic.getMedicalServices();
+        List<MedicalService> medicalServices = clinic.getMedicalServices().stream().toList();
         var medicalServicesDto = medicalServicesToMedicalServicesDto(medicalServices);
         
         Address address = clinic.getAddress();
@@ -149,7 +162,7 @@ public class ClinicServiceImpl implements ClinicService {
     private List<MedicalServiceResponseDto> medicalServicesToMedicalServicesDto(List<MedicalService> medicalServices) {
         var mssDto = new ArrayList<MedicalServiceResponseDto>();
         for (MedicalService ms : medicalServices) {
-            var msDto = new MedicalServiceResponseDto(ms.getId(), ms.getName(), ms.getCost());
+            var msDto = new MedicalServiceResponseDto(ms.getId(), ms.getName(), ms.getCost(), null);
             mssDto.add(msDto);
         }
         return mssDto;
@@ -216,7 +229,7 @@ public class ClinicServiceImpl implements ClinicService {
     {
         List<MedicalService> all = medicalServiceService.getAllMedicalServices();
         var result = new ArrayList<ClinicCountDto>();
-        for(int i=0; i<4; i++){
+        for(int i=0; i<all.size(); i++){
             MedicalService curr = all.get(i);
             ClinicCountDto clinicCountDto = new ClinicCountDto(curr.getName(), 1); //todo research : maybe clinic -> services is not one-to-many, but many-to-many
             result.add(clinicCountDto);

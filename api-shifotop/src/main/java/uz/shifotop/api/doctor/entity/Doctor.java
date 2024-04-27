@@ -1,5 +1,7 @@
 package uz.shifotop.api.doctor.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import uz.shifotop.api.clinic.entity.Clinic;
@@ -34,7 +36,7 @@ public class Doctor {
     @Column(name = "bio")
     private String bio;
 
-    @Column(name = "careerStartYear")
+    @Column(name = "career_start_year")
     private Integer careerStartYear;
 
     @Column(name = "email", unique = true)
@@ -62,9 +64,11 @@ public class Doctor {
             joinColumns = { @JoinColumn(name = "doctor_id") },
             inverseJoinColumns = { @JoinColumn(name = "speciality_id") }
     )
+    @JsonManagedReference
     private Set<Specialities> specialities;
 
     @ManyToMany(mappedBy = "doctors",fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Clinic> clinics;
 
 }

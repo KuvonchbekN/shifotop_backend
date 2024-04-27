@@ -77,13 +77,30 @@ INSERT INTO doctor_specialities (doctor_id, speciality_id) VALUES
                                                               (4, 4),
                                                               (2, 5);
 
-INSERT INTO medical_service (id, cost, name, clinic_id) VALUES
-                                                            (1, 50.00, 'General Consultation', 1),
-                                                            (2, 200.00, 'Dental Cleaning', 1),
-                                                            (3, 150.00, 'Eye Examination', 2),
-                                                            (4, 300.00, 'Orthopedic Consultation', 2),
-                                                            (5, 250.00, 'Cardiology Checkup', 3),
-                                                            (6, 400.00, 'MRI Scan', 3);
+INSERT INTO medical_service (id, cost, name) VALUES
+                                                            (1, 50.00, 'General Consultation'),
+                                                            (2, 200.00, 'Dental Cleaning'),
+                                                            (3, 150.00, 'Eye Examination'),
+                                                            (4, 300.00, 'Orthopedic Consultation'),
+                                                            (5, 250.00, 'Cardiology Checkup'),
+                                                            (6, 400.00, 'MRI Scan');
+
+INSERT INTO clinic_medical_service(clinic_id, medical_service_id) VALUES
+                                                                      (1,1),
+                                                                      (1,2),
+                                                                      (1,3),
+                                                                      (1,4),
+                                                                      (1,5),
+                                                                      (2,1),
+                                                                      (2,2),
+                                                                      (2,3),
+                                                                      (2,4),
+                                                                      (3,1),
+                                                                      (3,2),
+                                                                      (3,3),
+                                                                      (3,4),
+                                                                      (4,3),
+                                                                      (4,4);
 
 
 

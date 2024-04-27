@@ -14,4 +14,5 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 	List<Doctor> findByFirstnameContainingIgnoreCase(String firstName);
 	List<Doctor> findByLastnameContainingIgnoreCase(String lastName);
 
+	List<Doctor> findBySpecialitiesName(String specialities_name);
 }

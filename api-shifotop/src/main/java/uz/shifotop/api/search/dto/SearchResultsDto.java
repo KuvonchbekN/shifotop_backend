@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.shifotop.api.clinic.dto.ClinicResponseDto;
-import uz.shifotop.api.clinic.dto.MedicalServiceResponseDto;
+import uz.shifotop.api.service.dto.MedicalServiceResponseDto;
 import uz.shifotop.api.doctor.dto.DoctorResponseDto;
 
 import java.util.List;

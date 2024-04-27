@@ -1,8 +1,6 @@
 package uz.shifotop.api.doctor.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import uz.shifotop.api.clinic.dto.ClinicResponseDto;
 import uz.shifotop.api.clinic.entity.Clinic;
@@ -21,11 +19,9 @@ import uz.shifotop.api.specialization.dto.SpecialityResponseDto;
 import uz.shifotop.api.specialization.entity.Specialities;
 import uz.shifotop.api.specialization.repository.SpecialitiesRepository;
 
-import javax.print.Doc;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -123,16 +119,6 @@ public class DoctorService {
     }
 
 
-    public List<DoctorResponseDto> getDoctorsBySpeciality(Long specId, Integer page, Integer size) {
-
-        Pageable pageRequest = PageRequest.of(page, size);
-        List<Doctor> doctors = doctorRepository.findAll(pageRequest).toList();
-
-        return doctors.stream()
-                .map(doctorMapper::doctorToDoctorResponseDto)
-                .collect(Collectors.toList());
-    }
-
     public List<DoctorSpecialityCountDto> getDoctorsSpecialitiesWithCount() {
         //get speciality name and count of doctors attached to that speciality
         List<DoctorSpecialityCountDto> result = new ArrayList<>();
@@ -147,5 +133,10 @@ public class DoctorService {
 
     public Long getDoctorsCount() {
         return doctorRepository.count();
+    }
+
+    public List<DoctorResponseDto> getAllDoctorsBySpec(String name) {
+        List<Doctor> doctorsBySpecName = doctorRepository.findBySpecialitiesName(name);
+        return getDoctorResponseDtoListFromDoctorsList(doctorsBySpecName);
     }
 }

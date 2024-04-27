@@ -1,16 +1,14 @@
 package uz.shifotop.api.clinic.dto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.shifotop.api.address.dto.AddressResponseDto;
-import uz.shifotop.api.address.entity.Address;
 import uz.shifotop.api.clinicSpecs.dto.ClinicSpecsResponseDto;
 import uz.shifotop.api.doctor.dto.DoctorResponseDto;
 import uz.shifotop.api.review.dto.ReviewResponseDto;
-import uz.shifotop.api.specialization.entity.Specialities;
+import uz.shifotop.api.service.dto.MedicalServiceResponseDto;
 
 import java.util.List;
 

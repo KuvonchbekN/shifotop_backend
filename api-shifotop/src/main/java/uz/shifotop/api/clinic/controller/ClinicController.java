@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -16,14 +17,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import uz.shifotop.api.clinic.dto.ClinicCountDto;
 import uz.shifotop.api.clinic.dto.ClinicRequestDto;
 import uz.shifotop.api.clinic.dto.ClinicResponseDto;
-import uz.shifotop.api.clinic.dto.MedicalServiceRequestDto;
+import uz.shifotop.api.service.dto.MedicalServiceRequestDto;
 import uz.shifotop.api.clinic.dto.OrientalPlaceDto;
 import uz.shifotop.api.clinic.dto.PageSettings;
 import uz.shifotop.api.clinic.entity.Clinic;
@@ -40,6 +40,7 @@ import java.util.List;
 public class ClinicController
 {
 
+	@Lazy
 	private final ClinicService clinicService;
 
 	@Operation(summary = "Get all clinics",
@@ -75,7 +76,12 @@ public class ClinicController
 		return ResponseEntity.ok(clinicService.getClinicById(id));
 	}
 
-	// ...
+	@GetMapping("/type/{type}")
+	public ResponseEntity<List<ClinicResponseDto>> getClinicBySpec(@PathVariable String type, @Valid @ParameterObject PageSettings pageSettings){
+		log.info("Get clinic by type");
+		List<ClinicResponseDto> allClinics = clinicService.getAllClinicsBySpec(type);
+		return ResponseEntity.ok(allClinics);
+	}
 
 	@Operation(
 			summary = "Create a new clinic",
@@ -197,7 +203,4 @@ public class ClinicController
 		log.info("getClinicsCountByServices");
 		return ResponseEntity.ok(clinicService.getClinicsByServices());
 	}
-
-
-
 }

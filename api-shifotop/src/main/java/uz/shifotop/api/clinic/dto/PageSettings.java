@@ -1,11 +1,14 @@
 package uz.shifotop.api.clinic.dto;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 
 @Slf4j
-@Data
+@Setter
+@Getter
 public class PageSettings {
 
     private int page = 0;

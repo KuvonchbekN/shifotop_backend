@@ -1,5 +1,7 @@
 package uz.shifotop.api.specialization.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import uz.shifotop.api.doctor.entity.Doctor;
@@ -22,5 +24,6 @@ public class Specialities { //this is actual singular
     private String name;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "specialities")
+    @JsonBackReference
     private List<Doctor> doctors;
 }

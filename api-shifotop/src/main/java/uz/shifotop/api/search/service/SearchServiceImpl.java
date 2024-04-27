@@ -4,15 +4,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.shifotop.api.clinic.dto.ClinicResponseDto;
 import uz.shifotop.api.clinic.entity.Clinic;
-import uz.shifotop.api.clinic.entity.MedicalService;
+import uz.shifotop.api.service.dto.MedicalServiceResponseDto;
+import uz.shifotop.api.service.entity.MedicalService;
 import uz.shifotop.api.clinic.repository.ClinicRepo;
-import uz.shifotop.api.clinic.repository.MedicalServiceRepo;
+import uz.shifotop.api.service.repository.MedicalServiceRepo;
 import uz.shifotop.api.clinic.service.ClinicService;
 import uz.shifotop.api.doctor.dto.DoctorResponseDto;
 import uz.shifotop.api.doctor.entity.Doctor;
 import uz.shifotop.api.doctor.repository.DoctorRepository;
 import uz.shifotop.api.doctor.service.DoctorService;
 import uz.shifotop.api.search.dto.SearchResultsDto;
+import uz.shifotop.api.service.service.MedicalServiceService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +27,7 @@ public class SearchServiceImpl implements SearchService {
     private final MedicalServiceRepo serviceRepository;
     private final DoctorService doctorService; //todo: make it consistent with clinic service layer, for doctor there is not interface
     private final ClinicService clinicService;
+    private final MedicalServiceService medicalServiceService;
 
     public SearchResultsDto search(String query) {
         List<Doctor> doctors = new ArrayList<Doctor>();
@@ -43,9 +46,9 @@ public class SearchServiceImpl implements SearchService {
         List<DoctorResponseDto> doctorResponseDtoList = doctorService.getDoctorResponseDtoListFromDoctorsList(doctors);
         //the same for clinic and services
         List<ClinicResponseDto> clinicResponseDtoList = clinicService.getClinicResponseDtoListFromClinicList(clinics);
+        List<MedicalServiceResponseDto> serviceResponseDtos = medicalServiceService.getServiceResponseDtoListFromServiceList(services);
 
-
-        return new SearchResultsDto(doctorResponseDtoList, clinicResponseDtoList, null);
+        return new SearchResultsDto(doctorResponseDtoList, clinicResponseDtoList, serviceResponseDtos);
     }
 
 

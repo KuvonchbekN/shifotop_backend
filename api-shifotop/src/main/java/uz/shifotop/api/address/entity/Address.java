@@ -1,6 +1,7 @@
 package uz.shifotop.api.address.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,5 +34,7 @@ public class Address {
     private Clinic clinicIdForOrientalPlace;
 
     @OneToOne(mappedBy = "address")
+    @JsonIgnore
+    @JsonManagedReference
     private Clinic clinic;
 }

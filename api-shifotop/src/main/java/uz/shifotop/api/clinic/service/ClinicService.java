@@ -39,4 +39,6 @@ public interface ClinicService {
     Long getAllClinicsCount();
 
     List<ClinicCountDto> getClinicsByServices();
+
+    List<ClinicResponseDto> getAllClinicsBySpec(String spec);
 }

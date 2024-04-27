@@ -1,4 +1,4 @@
-package uz.shifotop.api.clinic.dto;
+package uz.shifotop.api.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;

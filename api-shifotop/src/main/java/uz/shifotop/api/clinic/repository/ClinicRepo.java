@@ -13,4 +13,5 @@ public interface ClinicRepo extends JpaRepository<Clinic, Long> {
 
     List<Clinic> findByNameContainingIgnoreCase(String name);
 
+    List<Clinic> findByClinicSpecsName(String specName);
 }

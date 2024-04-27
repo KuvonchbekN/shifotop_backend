@@ -6,9 +6,9 @@ import uz.shifotop.api.address.dto.AddressResponseDto;
 import uz.shifotop.api.address.entity.Address;
 import uz.shifotop.api.clinic.dto.ClinicRequestDto;
 import uz.shifotop.api.clinic.dto.ClinicResponseDto;
-import uz.shifotop.api.clinic.dto.MedicalServiceResponseDto;
+import uz.shifotop.api.service.dto.MedicalServiceResponseDto;
 import uz.shifotop.api.clinic.entity.Clinic;
-import uz.shifotop.api.clinic.entity.MedicalService;
+import uz.shifotop.api.service.entity.MedicalService;
 import uz.shifotop.api.clinicSpecs.dto.ClinicSpecsRequestDto;
 import uz.shifotop.api.clinicSpecs.dto.ClinicSpecsResponseDto;
 import uz.shifotop.api.clinicSpecs.entity.ClinicSpec;
@@ -64,7 +64,7 @@ public class ClinicMapperImpl implements ClinicMapper {
             dto.setPhoneNumber(clinic.getPhoneNumber());
             dto.setSupervisorName(clinic.getSupervisorName());
             dto.setDoctors(mapDoctors(clinic.getDoctors()));
-            dto.setMedicalServices(mapMedicalServices(clinic.getMedicalServices()));
+            dto.setMedicalServices(mapMedicalServices(clinic.getMedicalServices().stream().toList()));
             dto.setAddress(mapAddress(clinic.getAddress()));
             dto.setOrientalPlaces(mapOrientalPlaces(clinic.getOrientalPlaces()));
             dto.setClinicSpecs(mapClinicSpecs(clinic.getClinicSpecs()));
@@ -89,7 +89,7 @@ public class ClinicMapperImpl implements ClinicMapper {
 
     private List<MedicalServiceResponseDto> mapMedicalServices(List<MedicalService> medicalServices) {
         // Transform medical services to MedicalServiceResponseDto list
-        return medicalServices.stream().map(service -> new MedicalServiceResponseDto(service.getId(), service.getName(), service.getCost())).collect(Collectors.toList());
+        return medicalServices.stream().map(service -> new MedicalServiceResponseDto(service.getId(), service.getName(), service.getCost(), null)).collect(Collectors.toList());
     }
 
     private AddressResponseDto mapAddress(Address address) {

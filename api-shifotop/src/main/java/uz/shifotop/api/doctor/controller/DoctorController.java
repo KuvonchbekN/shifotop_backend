@@ -69,28 +69,12 @@ public class DoctorController
 		return ResponseEntity.ok(doctorService.getDoctor(doctorId));
 	}
 
-
-	@Operation(
-			summary = "Get doctors by speciality",
-			description = "Retrieves a list of doctors filtered by a specific speciality.",
-			responses = {
-					@ApiResponse(responseCode = "200", description = "Successfully retrieved doctors by speciality",
-							content = @Content(mediaType = "application/json",
-									schema = @Schema(implementation = DoctorResponseDto.class))),
-					@ApiResponse(responseCode = "400", description = "Invalid speciality ID provided")
-			}
-	)
-	@GetMapping("/speciality")
-	public ResponseEntity<List<DoctorResponseDto>> getDoctorBySpeciality(
-			@Parameter(description = "ID of the speciality", required = true, example = "1")
-			@RequestParam(value = "spec_id") Long specId,
-			@Parameter(description = "Size of the page", example = "10")
-			@RequestParam(value = "size", required = false) Integer size,
-			@Parameter(description = "Page number", example = "1")
-			@RequestParam(value = "page", required = false) Integer page)
-	{
-		log.info("Get doctors by speciality: {}", specId);
-		return ResponseEntity.ok(doctorService.getDoctorsBySpeciality(specId, page, size));
+	@GetMapping("/type/{type}")
+	public ResponseEntity<List<DoctorResponseDto>> getDoctorByType(@PathVariable String type){
+		List<DoctorResponseDto> allDoctors = doctorService.getAllDoctorsBySpec(type);
+		log.info("Get doctor by type: {}", type);
+//		doctorService.getDoctorListBySpeciality();
+		return ResponseEntity.ok(allDoctors);
 	}
 
 	@Operation(

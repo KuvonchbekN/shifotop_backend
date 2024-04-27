@@ -1,7 +1,7 @@
-package uz.shifotop.api.clinic.repository;
+package uz.shifotop.api.service.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import uz.shifotop.api.clinic.entity.MedicalService;
+import uz.shifotop.api.service.entity.MedicalService;
 
 import java.util.List;
 
