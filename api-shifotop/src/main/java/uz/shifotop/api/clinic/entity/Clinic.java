@@ -1,6 +1,7 @@
 package uz.shifotop.api.clinic.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -22,6 +23,7 @@ import lombok.Setter;
 import uz.shifotop.api.address.entity.Address;
 import uz.shifotop.api.clinicSpecs.entity.ClinicSpec;
 import uz.shifotop.api.doctor.entity.Doctor;
+import uz.shifotop.api.review.entity.Review;
 import uz.shifotop.api.service.entity.MedicalService;
 import uz.shifotop.api.user.entity.User;
 

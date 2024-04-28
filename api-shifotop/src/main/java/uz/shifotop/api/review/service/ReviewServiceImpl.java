@@ -9,6 +9,7 @@ import uz.shifotop.api.clinic.service.ClinicService;
 import uz.shifotop.api.common.exception.NotFoundException;
 import uz.shifotop.api.doctor.entity.Doctor;
 import uz.shifotop.api.doctor.repository.DoctorRepository;
+import uz.shifotop.api.review.dto.ReviewRequestDto;
 import uz.shifotop.api.review.entity.Review;
 import uz.shifotop.api.review.repository.ReviewRepository;
 import uz.shifotop.api.user.entity.User;
@@ -28,7 +29,7 @@ public class ReviewServiceImpl implements ReviewService{
     private final DoctorRepository doctorRepository;
 
     @Override
-    public void addReviewToClinic(Long clinicId, Review review) {
+    public void addReviewToClinic(Long clinicId, ReviewRequestDto reviewRequestDto) {
         User user = getRandomPatient();
 
         Optional<Clinic> byId = clinicRepo.findById(clinicId);
@@ -36,24 +37,19 @@ public class ReviewServiceImpl implements ReviewService{
             throw new NotFoundException("Clinic with this id does not exist");
         }
 
-//        user.setClinics(null);
-        review.setReviewDate(LocalDateTime.now());
-        review.setPatient(user);
-        review.setClinic(byId.get());
+        Review review = new Review(null, user, null, byId.get(), reviewRequestDto.getRating(), reviewRequestDto.getContent(), LocalDateTime.now());
         reviewRepository.save(review);
     }
 
     @Override
-    public void addReviewToDoctor(Long doctorId, Review review) {
+    public void addReviewToDoctor(Long doctorId, ReviewRequestDto reviewRequestDto) {
         User user = getRandomPatient();
         Optional<Doctor> byId = doctorRepository.findById(doctorId);
         if (byId.isEmpty()){
             throw new NotFoundException("Doctor with this id does not exist");
         }
 
-        review.setReviewDate(LocalDateTime.now());
-        review.setPatient(user);
-        review.setDoctor(byId.get());
+        Review review = new Review(null, user, byId.get(), null, reviewRequestDto.getRating(), reviewRequestDto.getContent(), LocalDateTime.now());
         reviewRepository.save(review);
     }
 

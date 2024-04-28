@@ -229,7 +229,8 @@ public class ClinicServiceImpl implements ClinicService {
     {
         List<MedicalService> all = medicalServiceService.getAllMedicalServices();
         var result = new ArrayList<ClinicCountDto>();
-        for(int i=0; i<all.size(); i++){
+        int size = all.size();
+        for(int i = 0; i< (Math.min(size, 4)) ; i++){
             MedicalService curr = all.get(i);
             ClinicCountDto clinicCountDto = new ClinicCountDto(curr.getName(), 1); //todo research : maybe clinic -> services is not one-to-many, but many-to-many
             result.add(clinicCountDto);
