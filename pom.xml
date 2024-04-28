@@ -5,7 +5,7 @@
     <groupId>uz.shifotop</groupId>
     <artifactId>shifotop</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <modules>
         <module>api-shifotop</module>
