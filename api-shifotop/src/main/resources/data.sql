@@ -9,7 +9,17 @@ INSERT INTO doctor (career_start_year, date_of_birth, price, bio, email, first_n
                                                                                                                             ('2008', '1974-01-23', 143000, 'Retina va kornea jarrohliklari bo‘yicha oftalmolog.', 'aziza08@example.com', 'Aziza', 'Akramova', 'aziza2008', '+998741234567'),
                                                                                                                             ('2016', '1991-09-04', 125000, 'Oldini olish va salomatlikni saqlashga e''tibor qaratgan umumiy amaliyot shifokori.', 'bahrom16@example.com', 'Bahrom', 'Saidov', 'bahrom2016', '+998701234888'),
                                                                                                                             ('2015', '1951-12-29', 175000, 'Artrit va autoimmun kasalliklar bo‘yicha revmatolog.', 'dilnoza15@example.com', 'Dilnoza', 'Kamilova', 'dilnoza2015', '+998712345999'),
-                                                                                                                            ('2015', '1977-10-23', 258000, 'Og‘riq boshqaruv va jarrohlik anesteziyasi bo‘yicha anesteziolog.', 'kamol15@example.com', 'Kamol', 'Juraev', 'kamol2015', '+998711235678');
+                                                                                                                            ('2015', '1977-10-23', 258000, 'Og‘riq boshqaruv va jarrohlik anesteziyasi bo‘yicha anesteziolog.', 'kamol15@example.com', 'Kamol', 'Juraev', 'kamol2015', '+998711235678'),
+                                                                                                                            ('2020', '1998-02-18', 287000, 'Ichki kasalliklar va diabet bo‘yicha tajribali.', 'zafar992@example.com', 'Zafar', 'Abdullaev', 'password1234', '+998712345678'),
+                                                                                                                            ('2002', '1959-12-08', 154000, 'Bolalar sog‘liqni saqlash va emlash dasturlari bo‘yicha mutaxassis.', 'gulbahor022@example.com', 'Gulbahor', 'Karimova', 'securepass02', '+998761234567'),
+                                                                                                                            ('2019', '1956-07-02', 234000, 'Yurak-qon tomir salomatligi va jarrohlik amaliyotlari bo‘yicha mutaxassis.', 'nurillo192@example.com', 'Nurillo', 'Tursunov', 'mypassword19', '+998711223344'),
+                                                                                                                            ('2006', '1980-08-29', 119000, 'Teri sharoitlari bo‘yicha keng tajribaga ega dermatolog.', 'feruza062@example.com', 'Feruza', 'Ismoilova', 'feruza1234', '+998721234598'),
+                                                                                                                            ('2011', '1978-07-25', 198000, 'Sport jarohatlari bo‘yicha ortopedik jarroh.', 'shavkat112@example.com', 'Shavkat', 'Mirziyoyev', 'shavkat2011', '+998701234567'),
+                                                                                                                            ('2002', '1952-05-31', 207000, 'Kattalar va keksa yoshdagi bemorlar bo‘yicha nevrolog.', 'sitora022@example.com', 'Sitora', 'Nazarova', 'sitora0202', '+998731234567'),
+                                                                                                                            ('2008', '1974-01-23', 143000, 'Retina va kornea jarrohliklari bo‘yicha oftalmolog.', 'aziza082@example.com', 'Aziza', 'Akramova', 'aziza2008', '+998741234567'),
+                                                                                                                            ('2016', '1991-09-04', 125000, 'Oldini olish va salomatlikni saqlashga e''tibor qaratgan umumiy amaliyot shifokori.', 'bahrom162@example.com', 'Bahrom', 'Saidov', 'bahrom2016', '+998701234888'),
+                                                                                                                            ('2015', '1951-12-29', 175000, 'Artrit va autoimmun kasalliklar bo‘yicha revmatolog.', 'dilnoza152@example.com', 'Dilnoza', 'Kamilova', 'dilnoza2015', '+998712345999'),
+                                                                                                                            ('2015', '1977-10-23', 258000, 'Og‘riq boshqaruv va jarrohlik anesteziyasi bo‘yicha anesteziolog.', 'kamol152@example.com', 'Kamol', 'Juraev', 'kamol2015', '+998711235678');
 
 --insert users data, patient data
 INSERT INTO users (id, date_of_birth, email, first_name, last_name, password, phone_number, role) VALUES
@@ -80,23 +90,43 @@ INSERT INTO clinic (address_id, id, name, official_name, phone_number, superviso
 INSERT INTO clinic_doctor (clinic_id, doctor_id) VALUES
                                                      (1, 1),
                                                      (1, 2),
+                                                     (1, 3),
                                                      (2, 1),
-                                                     (3, 1),
-                                                     (4, 1),
+                                                     (2, 2),
                                                      (2, 3),
+                                                     (3, 1),
+                                                     (3, 3),
+                                                     (4, 2),
+                                                     (4, 3),
+                                                     (4, 4),
+                                                     (2, 4),
+                                                     (2, 5),
                                                      (3, 4),
+                                                     (3, 5),
+                                                     (3, 6),
                                                      (4, 5),
                                                      (5, 6),
                                                      (5, 7),
                                                      (6, 8),
+                                                     (6, 5),
                                                      (7, 9),
+                                                     (7, 8),
                                                      (8, 10),
+                                                     (8, 9),
                                                      (9, 8),
-                                                     (10, 8),
+                                                     (10, 9),
                                                      (11, 1),
+                                                     (11, 2),
+                                                     (11, 3),
                                                      (12, 1),
+                                                     (12, 2),
+                                                     (12, 3),
                                                      (13, 1),
-                                                     (14, 2);
+                                                     (13, 2),
+                                                     (13, 3),
+                                                     (14, 2),
+                                                     (14, 3),
+                                                     (14, 4);
 
 
 
@@ -159,40 +189,77 @@ INSERT INTO medical_service (id, cost, name) VALUES
 
 
 INSERT INTO clinic_medical_service(clinic_id, medical_service_id) VALUES
-                                                                      (1,1),
-                                                                      (1,2),
-                                                                      (1,3),
-                                                                      (1,4),
-                                                                      (1,5),
-                                                                      (2,1),
-                                                                      (2,2),
-                                                                      (2,3),
-                                                                      (2,4),
-                                                                      (3,1),
-                                                                      (3,2),
-                                                                      (3,3),
-                                                                      (3,4),
-                                                                      (4,3),
-                                                                      (4,4);
+                                                                        -- Clinic 1
+                                                                        (1,1), (1,2), (1,3), (1,4), (1,5),
+                                                                        -- Clinic 2
+                                                                        (2,1), (2,2), (2,3), (2,6), (2,7),
+                                                                        -- Clinic 3
+                                                                        (3,1), (3,2), (3,5), (3,7), (3,8),
+                                                                        -- Clinic 4
+                                                                        (4,3), (4,4), (4,8), (4,9), (4,10),
+                                                                        -- Clinic 5
+                                                                        (5,2), (5,4), (5,6), (5,8), (5,10),
+                                                                        -- Clinic 6
+                                                                        (6,1), (6,5), (6,7), (6,11), (6,12),
+                                                                        -- Clinic 7
+                                                                        (7,3), (7,5), (7,6), (7,9), (7,11),
+                                                                        -- Clinic 8
+                                                                        (8,1), (8,4), (8,7), (8,10), (8,12),
+                                                                        -- Clinic 9
+                                                                        (9,2), (9,5), (9,8), (9,11), (9,12),
+                                                                        -- Clinic 10
+                                                                        (10,3), (10,6), (10,9), (10,10), (10,12),
+                                                                        -- Clinic 11
+                                                                        (11,1), (11,4), (11,7), (11,8), (11,11),
+                                                                        -- Clinic 12
+                                                                        (12,2), (12,3), (12,5), (12,9), (12,10),
+                                                                        -- Clinic 13
+                                                                        (13,1), (13,6), (13,8), (13,10), (13,12),
+                                                                        -- Clinic 14
+                                                                        (14,3), (14,4), (14,7), (14,9), (14,11),
+                                                                        -- Clinic 15
+                                                                        (15,2), (15,5), (15,6), (15,8), (15,12),
+                                                                        -- Clinic 16
+                                                                        (16,1), (16,3), (16,4), (16,10), (16,11);
+
 
 
 
 
 INSERT INTO clinic_spec_aux (clinic_id, spec_id) VALUES
-                                                     (1, 1),
-                                                     (1, 2),
-                                                     (1, 3),
-                                                     (1, 4),
-                                                     (1, 5),
-                                                     (1, 6),
-                                                     (2, 1),
-                                                     (2, 2),
-                                                     (2, 3),
-                                                     (2, 4),
-                                                     (2, 5),
-                                                     (2, 6),
-                                                     (3, 1),
-                                                     (6, 6);
+                                                    -- Clinic 1
+                                                    (1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6),
+                                                    -- Clinic 2
+                                                    (2, 1), (2, 2), (2, 3), (2, 4), (2, 5), (2, 6),
+                                                    -- Clinic 3
+                                                    (3, 1), (3, 2), (3, 3),
+                                                    -- Clinic 4
+                                                    (4, 2), (4, 3), (4, 5),
+                                                    -- Clinic 5
+                                                    (5, 1), (5, 4), (5, 6),
+                                                    -- Clinic 6
+                                                    (6, 2), (6, 3), (6, 6),
+                                                    -- Clinic 7
+                                                    (7, 1), (7, 5),
+                                                    -- Clinic 8
+                                                    (8, 2), (8, 4), (8, 6),
+                                                    -- Clinic 9
+                                                    (9, 3), (9, 5),
+                                                    -- Clinic 10
+                                                    (10, 1), (10, 6),
+                                                    -- Clinic 11
+                                                    (11, 1), (11, 3), (11, 5),
+                                                    -- Clinic 12
+                                                    (12, 2), (12, 4),
+                                                    -- Clinic 13
+                                                    (13, 3), (13, 5), (13, 6),
+                                                    -- Clinic 14
+                                                    (14, 1), (14, 4),
+                                                    -- Clinic 15
+                                                    (15, 2), (15, 5), (15, 6),
+                                                    -- Clinic 16
+                                                    (16, 1), (16, 3), (16, 4);
+
 
 INSERT INTO reviews (rating, clinic_id, doctor_id, patient_id, review_date, content) VALUES
                                                                                          (5, 1, NULL, 1, '2023-04-01 14:30:00', 'Ajoyib xizmat va do''stona xodimlar.'),
