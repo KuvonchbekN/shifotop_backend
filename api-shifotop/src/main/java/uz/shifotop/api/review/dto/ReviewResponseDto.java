@@ -18,5 +18,5 @@ public class ReviewResponseDto {
     private Long clinicId;
     private Integer rating;
     private String content;
-    private LocalDateTime reviewTime; //todo might be problem, coz it was string before, when I inserted the data
+    private LocalDateTime reviewTime;
 }

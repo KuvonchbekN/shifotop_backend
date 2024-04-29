@@ -232,7 +232,7 @@ public class ClinicServiceImpl implements ClinicService {
         int size = all.size();
         for(int i = 0; i< (Math.min(size, 4)) ; i++){
             MedicalService curr = all.get(i);
-            ClinicCountDto clinicCountDto = new ClinicCountDto(curr.getName(), 1); //todo research : maybe clinic -> services is not one-to-many, but many-to-many
+            ClinicCountDto clinicCountDto = new ClinicCountDto(curr.getName(), 1);
             result.add(clinicCountDto);
         }
 

@@ -47,7 +47,6 @@ public class MedicalServiceServiceImpl implements MedicalServiceService {
         return medicalServiceRepo.findByNameContainingIgnoreCase(name);
     }
 
-    //todo implement search by service as well
     public List<MedicalServiceResponseDto> getServiceResponseDtoListFromServiceList(List<MedicalService> serviceList) {
         List<MedicalServiceResponseDto> serviceResponseDtoList = new ArrayList<>();
         for (var medicalService : serviceList) {
