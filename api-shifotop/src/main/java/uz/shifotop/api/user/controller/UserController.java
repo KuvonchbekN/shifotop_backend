@@ -45,6 +45,7 @@ public class UserController
 		String serviceName = getServiceName(userCreateDto.role());
 		UserService selectedService = context.getBean(serviceName, UserService.class);
 		Long userId = selectedService.createUser(userCreateDto);
+		System.out.println("This user ID is " + userId);
 		return ResponseEntity.ok(userId);
 	}
 
